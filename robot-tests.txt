@@ -1,0 +1,53 @@
+*** Settings ***
+Documentation    Example using Selenium library that will open 
+...              a new browser, search yahoo for cloud gaming, 
+...              and verify the search results contain gaikai.com.
+...              Two test cases are used. One using Acceptance test-driven 
+...              development method (Given-When-Then). And the other case
+...              using keyword driven test
+Library          Selenium2Library
+Test Teardown    Close Browser
+
+*** Variables ***
+${HOMEPAGE}    http://www.yahoo.com
+${BROWSER}     Firefox
+
+*** Test Cases ***
+Yahoo cloud gaming and find gaikai
+    Given browser is open to yahoo
+    When user searches "cloud gaming"
+    Then check results for "www.gaikai.com"
+
+Search yahoo for cloud gaming and look for gaikai
+    browser is open to yahoo
+    yahoo and check results    cloud gaming    www.gaikai.com
+
+*** Keywords ***
+Browser Is Open To Yahoo
+    Open Browser    ${HOMEPAGE}    ${BROWSER}
+
+Input Search
+    [Arguments]    ${search}
+    Input Text    id=p_13838465-p    ${search}
+
+Click Search
+    Click Button    id=search-submit
+
+User Searches "${searchkey}"
+    Input Search     ${searchkey}
+    Click Search
+
+Check Results For "${result}"
+    Wait For It    ${result}
+
+Wait For It
+    [Arguments]    ${results}
+    Wait Until Page Contains    ${results}
+
+
+
+Yahoo and check results
+    [Arguments]    ${searchfor}    ${finder}
+    Input Text    id=p_13838465-p    ${searchfor}
+    Click Button    id=search-submit
+    Wait Until Page Contains    ${finder}

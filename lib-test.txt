@@ -1,0 +1,19 @@
+*** Settings ***
+Documentation     Example creating custom python library to 
+...               test calculator functions
+Library           CalculatorLibrary
+Test Setup        clear num
+
+*** Test Cases ***
+Add two numbers
+    Add numbers    4    6
+    Result should be    10
+
+Multiply two numbers
+    Multiply numbers    4    6
+    Result should be    24
+
+Clear
+    Add numbers    1    3
+    Clear num    
+    Result should be    0
